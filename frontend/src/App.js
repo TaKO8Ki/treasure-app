@@ -1,6 +1,7 @@
 import { h, Component } from "preact";
 import firebase from "./firebase";
-import { getPrivateMessage, getPublicMessage } from "./api";
+import { getPrivateMessage, getPublicMessage, getArticles } from "./api";
+import Article from "./Article";
 
 class App extends Component {
   constructor() {
@@ -46,6 +47,7 @@ class App extends Component {
     }
     return (
       <div>
+        <Article />
         <div>{state.message}</div>
         <p style="color:red;">{state.errorMessage}</p>
         <button onClick={this.getPrivateMessage.bind(this)}>
