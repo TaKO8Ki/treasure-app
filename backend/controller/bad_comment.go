@@ -16,23 +16,23 @@ import (
 	"github.com/voyagegroup/treasure-app/service"
 )
 
-type Article struct {
+type BadComment struct {
 	db *sqlx.DB
 }
 
-func NewArticle(db *sqlx.DB) *Article {
-	return &Article{db: db}
+func NewBadComment(db *sqlx.DB) *BadComment {
+	return &BadComment{db: db}
 }
 
-func (a *Article) Index(w http.ResponseWriter, r *http.Request) (int, interface{}, error) {
-	articles, err := repository.AllArticle(a.db)
+func (a *BadComment) Index(w http.ResponseWriter, r *http.Request) (int, interface{}, error) {
+	bad_comments, err := repository.AllBadComment(a.db)
 	if err != nil {
 		return http.StatusInternalServerError, nil, err
 	}
-	return http.StatusOK, articles, nil
+	return http.StatusOK, bad_comments, nil
 }
 
-func (a *Article) Show(w http.ResponseWriter, r *http.Request) (int, interface{}, error) {
+func (a *BadComment) Show(w http.ResponseWriter, r *http.Request) (int, interface{}, error) {
 	vars := mux.Vars(r)
 	id, ok := vars["id"]
 	if !ok {
@@ -44,52 +44,44 @@ func (a *Article) Show(w http.ResponseWriter, r *http.Request) (int, interface{}
 		return http.StatusBadRequest, nil, err
 	}
 
-	articleService := service.NewArticle(a.db)
-	articleDetail, err := articleService.FindArticleDetail(aid)
+	badComment, err := repository.FindBadComment(a.db, aid)
 	if err != nil && err == sql.ErrNoRows {
 		return http.StatusNotFound, nil, err
 	} else if err != nil {
 		return http.StatusInternalServerError, nil, err
 	}
 
-	return http.StatusCreated, articleDetail, nil
+	return http.StatusCreated, badComment, nil
 }
 
-func (a *Article) Create(w http.ResponseWriter, r *http.Request) (int, interface{}, error) {
-	reqParam := &model.RequestCreateArticle{}
+func (a *BadComment) Create(w http.ResponseWriter, r *http.Request) (int, interface {}, error) {
+	reqParam := &model.BadComment{}
 	if err := json.NewDecoder(r.Body).Decode(&reqParam); err != nil {
 		return http.StatusBadRequest, nil, err
 	}
 
-	user, err := httputil.GetUserFromContext(r.Context())
+	createBadComment := &model.BadComment{ 
+		Text:  reqParam.Text,
+		ReferenceUrl:   reqParam.ReferenceUrl,
+	}
+
+	badCommentService := service.NewBadComment(a.db)
+	id, err := badCommentService.Create(createBadComment)
 	if err != nil {
 		return http.StatusInternalServerError, nil, err
 	}
 
-	createArticle := &model.Article{
-		Title:  reqParam.Title,
-		Body:   reqParam.Body,
-		UserID: &user.ID,
-	}
-
-	articleService := service.NewArticle(a.db)
-	id, err := articleService.Create(createArticle, reqParam.TagIDs)
-	if err != nil {
-		return http.StatusInternalServerError, nil, err
-	}
-
-	respParam := &model.ResponseCreateArticle{
+	respParam := &model.ResponseCreateBadComment{
 		ID:     id,
-		Title:  createArticle.Title,
-		Body:   createArticle.Body,
-		UserID: createArticle.UserID,
-		TagIDs: reqParam.TagIDs,
+		Text:  createBadComment.Text,
+		ReferenceUrl:   createBadComment.ReferenceUrl,
+		Point: 0,
 	}
 
 	return http.StatusCreated, respParam, nil
 }
 
-func (a *Article) Update(w http.ResponseWriter, r *http.Request) (int, interface{}, error) {
+func (a *BadComment) Update(w http.ResponseWriter, r *http.Request) (int, interface{}, error) {
 	vars := mux.Vars(r)
 	id, ok := vars["id"]
 	if !ok {
@@ -101,13 +93,13 @@ func (a *Article) Update(w http.ResponseWriter, r *http.Request) (int, interface
 		return http.StatusBadRequest, nil, err
 	}
 
-	reqParam := &model.Article{}
+	reqParam := &model.BadComment{}
 	if err := json.NewDecoder(r.Body).Decode(&reqParam); err != nil {
 		return http.StatusBadRequest, nil, err
 	}
 
-	articleService := service.NewArticle(a.db)
-	err = articleService.Update(aid, reqParam)
+	badCommentService := service.NewBadComment(a.db)
+	err = badCommentService.Update(aid, reqParam)
 	if err != nil && errors.Cause(err) == sql.ErrNoRows {
 		return http.StatusNotFound, nil, err
 	} else if err != nil {
@@ -117,7 +109,7 @@ func (a *Article) Update(w http.ResponseWriter, r *http.Request) (int, interface
 	return http.StatusNoContent, nil, nil
 }
 
-func (a *Article) Destroy(w http.ResponseWriter, r *http.Request) (int, interface{}, error) {
+func (a *BadComment) Destroy(w http.ResponseWriter, r *http.Request) (int, interface{}, error) {
 	vars := mux.Vars(r)
 	id, ok := vars["id"]
 	if !ok {
@@ -129,8 +121,8 @@ func (a *Article) Destroy(w http.ResponseWriter, r *http.Request) (int, interfac
 		return http.StatusBadRequest, nil, err
 	}
 
-	articleService := service.NewArticle(a.db)
-	err = articleService.Destroy(aid)
+	badCommentService := service.NewBadComment(a.db)
+	err = badCommentService.Destroy(aid)
 	if err != nil && errors.Cause(err) == sql.ErrNoRows {
 		return http.StatusNotFound, nil, err
 	} else if err != nil {

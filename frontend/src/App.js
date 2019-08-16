@@ -1,6 +1,7 @@
 import { h, Component } from "preact";
 import firebase from "./firebase";
 import { getPrivateMessage, getPublicMessage } from "./api";
+import Article from "./Article";
 
 class App extends Component {
   constructor() {
@@ -41,6 +42,7 @@ class App extends Component {
   }
 
   render(props, state) {
+    <Article />
     if (state.user === null) {
       return <button onClick={firebase.login}>Please login</button>;
     }

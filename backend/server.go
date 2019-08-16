@@ -77,15 +77,23 @@ func (s *Server) Route() *mux.Router {
 	r.Methods(http.MethodGet).Path("/public").Handler(commonChain.Then(sample.NewPublicHandler()))
 	r.Methods(http.MethodGet).Path("/private").Handler(authChain.Then(sample.NewPrivateHandler(s.db)))
 
-	articleController := controller.NewArticle(s.db)
-	r.Methods(http.MethodPost).Path("/articles").Handler(authChain.Then(AppHandler{articleController.Create}))
-	r.Methods(http.MethodPut).Path("/articles/{id}").Handler(authChain.Then(AppHandler{articleController.Update}))
-	r.Methods(http.MethodDelete).Path("/articles/{id}").Handler(authChain.Then(AppHandler{articleController.Destroy}))
-	r.Methods(http.MethodGet).Path("/articles").Handler(commonChain.Then(AppHandler{articleController.Index}))
-	r.Methods(http.MethodGet).Path("/articles/{id}").Handler(commonChain.Then(AppHandler{articleController.Show}))
+	// articleController := controller.NewArticle(s.db)
+	// r.Methods(http.MethodPost).Path("/articles").Handler(authChain.Then(AppHandler{articleController.Create}))
+	// r.Methods(http.MethodPut).Path("/articles/{id}").Handler(authChain.Then(AppHandler{articleController.Update}))
+	// r.Methods(http.MethodDelete).Path("/articles/{id}").Handler(authChain.Then(AppHandler{articleController.Destroy}))
+	// r.Methods(http.MethodGet).Path("/articles").Handler(commonChain.Then(AppHandler{articleController.Index}))
+	// r.Methods(http.MethodGet).Path("/articles/{id}").Handler(commonChain.Then(AppHandler{articleController.Show}))
 
-	articleCommentController := controller.NewArticleComment(s.db)
-	r.Methods(http.MethodPost).Path("/articles/{article_id}/comments").Handler(authChain.Then(AppHandler{articleCommentController.Create}))
+	// articleCommentController := controller.NewArticleComment(s.db)
+	// r.Methods(http.MethodPost).Path("/articles/{article_id}/comments").Handler(authChain.Then(AppHandler{articleCommentController.Create}))
+
+	badCommentController := controller.NewBadComment(s.db)
+	r.Methods(http.MethodPost).Path("/comments").Handler(authChain.Then(AppHandler{badCommentController.Create}))
+	// r.Methods(http.MethodPut).Path("/comments/{id}").Handler(authChain.Then(AppHandler{badCommentController.Update}))
+	// r.Methods(http.MethodDelete).Path("/comments/{id}").Handler(authChain.Then(AppHandler{badCommentController.Destroy}))
+	r.Methods(http.MethodGet).Path("/comments").Handler(commonChain.Then(AppHandler{badCommentController.Index}))
+	r.Methods(http.MethodGet).Path("/comments/{id}").Handler(commonChain.Then(AppHandler{badCommentController.Show}))
+
 
 	r.PathPrefix("").Handler(commonChain.Then(http.StripPrefix("/img", http.FileServer(http.Dir("./img")))))
 	return r

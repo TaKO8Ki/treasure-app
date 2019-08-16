@@ -17,6 +17,9 @@ create-token:
 req-articles:
 	curl -v $(HOST):$(PORT)/articles
 
+req-bad-comments:
+	curl -v $(HOST):$(PORT)/comments
+
 req-img-pei:
 	curl -v $(HOST):$(PORT)/img/pei.png
 
@@ -25,6 +28,9 @@ req-articles-get:
 
 req-articles-post:
 	curl -v -XPOST -H "Authorization: Bearer $(shell cat ./$(TOKEN_FILE))" $(HOST):$(PORT)/articles -d '{"title": "$(ARTICLE_TITLE)", "body": "$(ARTICLE_BODY)", "tag_ids": [1, 2]}'
+
+req-bad-comments-post:
+	curl -v -XPOST -H "Authorization: Bearer $(shell cat ./$(TOKEN_FILE))" $(HOST):$(PORT)/comments -d '{"text": "$(ARTICLE_TITLE)", "reference_url": "$(ARTICLE_BODY)"}'
 
 req-articles-update:
 	curl -v -XPUT -H "Authorization: Bearer $(shell cat ./$(TOKEN_FILE))" $(HOST):$(PORT)/articles/$(ARTICLE_ID) -d '{"title": "$(ARTICLE_TITLE)", "body": "$(ARTICLE_BODY)"}'
