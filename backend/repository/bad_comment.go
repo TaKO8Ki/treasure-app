@@ -15,6 +15,14 @@ func AllBadComment(db *sqlx.DB) ([]model.BadComment, error) {
 	return a, nil
 }
 
+func RandomComment(db *sqlx.DB) ([]model.BadComment, error) {
+	a := make([]model.BadComment, 0)
+	if err := db.Select(&a, `SELECT id, text, reference_url, point FROM bad_comments ORDER BY RAND() LIMIT 2`); err != nil {
+		return nil, err
+	}
+	return a, nil
+}
+
 func FindBadComment(db *sqlx.DB, id int64) (*model.BadComment, error) {
 	a := model.BadComment{}
 	if err := db.Get(&a, `

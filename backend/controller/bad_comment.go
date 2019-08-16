@@ -32,6 +32,14 @@ func (a *BadComment) Index(w http.ResponseWriter, r *http.Request) (int, interfa
 	return http.StatusOK, bad_comments, nil
 }
 
+func (a *BadComment) Random(w http.ResponseWriter, r *http.Request) (int, interface{}, error) {
+	bad_comments, err := repository.RandomComment(a.db)
+	if err != nil {
+		return http.StatusInternalServerError, nil, err
+	}
+	return http.StatusOK, bad_comments, nil
+}
+
 func (a *BadComment) Show(w http.ResponseWriter, r *http.Request) (int, interface{}, error) {
 	vars := mux.Vars(r)
 	id, ok := vars["id"]
