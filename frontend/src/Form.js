@@ -9,7 +9,7 @@ class Form extends Component {
     this.token = '';
   }
 
-  async handleSubmit(event) {
+  async handleSubmit() {
     if (this.token === '') {
       this.token = await firebase.auth().currentUser.getIdToken();
     }
