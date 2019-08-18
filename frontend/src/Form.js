@@ -39,8 +39,9 @@ class Form extends Component {
   render() {
     return (
       <div class="form">
-        <p><textarea type="text" name="text" value={this.state.value}　onChange={this.handleChange.bind(this)} placeholder="text"/></p>
-        <p><input type="text" name="reference_url" value={this.state.value}　onChange={this.handleChange.bind(this)} placeholder="url"/></p>
+        <p id="title">クソコメを投稿する</p>
+        <p><textarea type="text" name="text" value={this.state.value}　onChange={this.handleChange.bind(this)} placeholder="ここにクソコメを入力してください"/></p>
+        <p><input type="text" name="reference_url" value={this.state.value}　onChange={this.handleChange.bind(this)} placeholder="参考URLがあれば入力してください"/></p>
         <button onClick={this.handleSubmit.bind(this)}>クソコメする</button>
       </div>
     );

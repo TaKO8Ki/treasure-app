@@ -5,5 +5,5 @@ import Home from "./src/Home";
 
 render(<Home />, document.getElementById("home"));
 render(<App />, document.getElementById("root"));
-render(<Header />, document.getElementById("header"));
+render(<Header />, document.getElementsByTagName("header")[0]);
 

@@ -5,6 +5,9 @@ import (
 	"encoding/json"
 	"net/http"
 	"strconv"
+	"io/ioutil"
+	"log"
+	"net/url"
 
 	"github.com/gorilla/mux"
 	"github.com/jmoiron/sqlx"
@@ -22,6 +25,11 @@ type BadComment struct {
 
 func NewBadComment(db *sqlx.DB) *BadComment {
 	return &BadComment{db: db}
+}
+
+type Image struct {
+	Data    string  `json:"img"`
+	Response   string `json:"response"`
 }
 
 func (a *BadComment) Index(w http.ResponseWriter, r *http.Request) (int, interface{}, error) {
@@ -71,7 +79,10 @@ func (a *BadComment) Create(w http.ResponseWriter, r *http.Request) (int, interf
 	createBadComment := &model.BadComment{ 
 		Text:  reqParam.Text,
 		ReferenceUrl:   reqParam.ReferenceUrl,
+		Image: Test(reqParam.Text),
 	}
+
+	log.Println(Test(reqParam.Text))
 
 	badCommentService := service.NewBadComment(a.db)
 	id, err := badCommentService.Create(createBadComment)
@@ -84,6 +95,7 @@ func (a *BadComment) Create(w http.ResponseWriter, r *http.Request) (int, interf
 		Text:  createBadComment.Text,
 		ReferenceUrl:   createBadComment.ReferenceUrl,
 		Point: 0,
+		Image: createBadComment.Image,
 	}
 
 	return http.StatusCreated, respParam, nil
@@ -138,4 +150,22 @@ func (a *BadComment) Destroy(w http.ResponseWriter, r *http.Request) (int, inter
 	}
 
 	return http.StatusNoContent, nil, nil
+}
+
+func Test(param string) string {
+	resp, err := http.Get("http://localhost:3333/?text=" + url.PathEscape(param))
+	if err != nil {
+		log.Println(err)
+	}
+
+	defer resp.Body.Close()
+
+	body, _ := ioutil.ReadAll(resp.Body)
+
+	var image Image
+	err = json.Unmarshal([]byte(string(body)), &image)
+	if err != nil {
+		log.Println(err)
+	}
+	return image.Data
 }

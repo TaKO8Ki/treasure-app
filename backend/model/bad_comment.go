@@ -5,6 +5,7 @@ type ResponseCreateBadComment struct {
 	Text  string  `json:"text"`
 	ReferenceUrl   string  `json:"reference_url"`
 	Point int  `json:"point"`
+	Image string `db:"image" json:"img"`
 }
 
 type BadComment struct {
@@ -12,4 +13,5 @@ type BadComment struct {
 	Text  string `db:"text" json:"text"`
 	ReferenceUrl   string `db:"reference_url" json:"reference_url"`
 	Point int `db:"point" json:"point"`
+	Image string `db:"image" json:"img"`
 }

@@ -33,13 +33,13 @@ req-articles-post:
 	curl -v -XPOST -H "Authorization: Bearer $(shell cat ./$(TOKEN_FILE))" $(HOST):$(PORT)/articles -d '{"title": "$(ARTICLE_TITLE)", "body": "$(ARTICLE_BODY)", "tag_ids": [1, 2]}'
 
 req-bad-comments-post:
-	curl -v -XPOST -H "Authorization: Bearer $(shell cat ./$(TOKEN_FILE))" $(HOST):$(PORT)/comments -d '{"text": "$(ARTICLE_TITLE)", "reference_url": "$(ARTICLE_BODY)"}'
+	curl -v -XPOST -H "Authorization: Bearer $(shell cat ./$(TOKEN_FILE))" $(HOST):$(PORT)/comments -d '{"text": "日本語とenglish", "reference_url": "$(ARTICLE_BODY)"}'
 
 req-articles-update:
 	curl -v -XPUT -H "Authorization: Bearer $(shell cat ./$(TOKEN_FILE))" $(HOST):$(PORT)/articles/$(ARTICLE_ID) -d '{"title": "$(ARTICLE_TITLE)", "body": "$(ARTICLE_BODY)"}'
 
 req-bad-comments-update:
-	curl -v -XPUT -H "Authorization: Bearer $(shell cat ./$(TOKEN_FILE))" $(HOST):$(PORT)/comments/17 -d '{"text": "hoge", "reference_url": "hogehoge", "point": 1}'
+	curl -v -XPUT -H "Authorization: Bearer $(shell cat ./$(TOKEN_FILE))" $(HOST):$(PORT)/comments/22 -d '{"text": "hoge", "reference_url": "hogehoge", "point": 1}'
 
 req-articles-delete:
 	curl -v -XDELETE -H "Authorization: Bearer $(shell cat ./$(TOKEN_FILE))" $(HOST):$(PORT)/articles/$(ARTICLE_ID)

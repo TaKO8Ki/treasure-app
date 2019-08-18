@@ -1,5 +1,4 @@
 import { h, Component } from "preact";
-import { Router, Link } from 'preact-router';
 import firebase from '../firebase';
 import axios from 'axios';    
 const API_ENDPOINT = process.env.BACKEND_API_BASE;
@@ -11,7 +10,10 @@ class Button extends Component {
     this.state.point = props.point
     this.state.buttonName = props.buttonName
     this.token = ''
-    this.handleSubmit = this.handleSubmit.bind(this);
+  }
+
+  handleToDetailPage () {
+    this.props.changePageStatus(this.state.id)
   }
 
   async handleSubmit() {
@@ -24,23 +26,18 @@ class Button extends Component {
     let point = 2;
     console.log(this.token)
     console.log(JSON.stringify({ text, reference_url, point }))
-    console.log("hoge")
     return fetch(`${API_ENDPOINT}/comments/${id}`, {
-      method: 'POST',
-      cache: 'no-cache',
-      redirect: 'follow',
-      referrer: 'no-referrer',
+      method: 'PUT',
+      body: JSON.stringify({ text, reference_url, point }),
       headers: {
-        'X-HTTP-Method-Override': 'PUT',
-        'Authorization': `Bearer ${this.token}`,
-      },
-      body: JSON.stringify({ text, reference_url, point })
+        "Content-Type": "application/json; charset=utf-8",
+      }
     }).then(v => v)
         
   }
 
   render(props, state) {
-    return <button onClick={this.handleSubmit}>{state.buttonName}</button>
+    return <button onClick={this.handleToDetailPage.bind(this)}>{state.buttonName}</button>
   }
 }
 

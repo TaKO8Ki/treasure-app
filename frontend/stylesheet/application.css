@@ -6,14 +6,27 @@
 
 a {
   text-decoration: none;
+  color: #fff;
+}
+
+button {
+  font-family: 'M PLUS Rounded 1c', sans-serif;
 }
 
 header {
   background: #16a085;
   position: fixed;
-  width: 100%;
-  padding: 20px;
+  width: 60%;
+  padding: 15px 20%;
   top: 0px;
+  border-bottom: solid 2px #ccc;
+  border-bottom: solid 3px #fff;
+  box-shadow: 0.5px 0.5px 5px 0px #000;
+}
+
+header #header {
+  display: flex;
+  justify-content: space-between;
 }
 
 body {
@@ -21,4 +34,6 @@ body {
   background: #fafafa;
   font-family: 'M PLUS Rounded 1c', sans-serif;
 }
+
+
 

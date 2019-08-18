@@ -1,17 +1,14 @@
 import { h, Component } from "preact";
 import { Router, Link } from 'preact-router';
-import Title from "./Title";
-import Point from "./Point";
-import { stat } from "fs";
 
-class Detail extends Component {
+class Image extends Component {
   constructor(props) {
     super();
     this.state.id = props.id
     this.state.article = ""
   }
 
-  componentDidMount() {
+  componentWillMount() {
     if (this.state.id != undefined) {
       fetch('http://localhost:1991/comments/' + this.state.id)
       .then(function(res) {
@@ -24,13 +21,12 @@ class Detail extends Component {
   }
 
   render(props, state) {
-    if (state.article != undefined) {
-      console.log(state.article)
+    if (state.article != '') {
       return (
-        <Title text={state.article['text']} />
+        <p class="image"><img src={"data:image/png;base64," + state.article['img']}/></p>
       )
     }
   }
 }
 
-export default Detail;
+export default Image;

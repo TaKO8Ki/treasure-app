@@ -14,10 +14,10 @@ class Header extends Component {
 
   render() {
     return (
-      <nav>
-        <a href="/">Home</a>
-        <a href="/comments/new">作成する</a>
-      </nav>
+      <div id="header">
+        <a href="/">クソコメジャッジ（仮称）</a>
+        <a class="create-button" href="/comments/new">作成する</a>
+      </div>
     )
   }
   
