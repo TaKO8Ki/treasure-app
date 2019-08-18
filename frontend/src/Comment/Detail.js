@@ -22,10 +22,10 @@ class Detail extends Component {
 
   render(props, state) {
     return (
-      <div>
+      <p>
         <Title text={state.article['text']} />
         <Point point={state.article['point']} />
-      </div>
+      </p>
     )
   }
 }

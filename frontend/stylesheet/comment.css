@@ -1,0 +1,83 @@
+
+/*ジャッジ画面*/
+#judge {
+  width: 700px;
+  margin: 0 auto;
+}
+
+#judge .content {
+  border: solid 1px #ccc;
+  width: 90%;
+  margin: 0 auto;
+  border-radius: 5px;
+  padding: 15px;
+  background: #fff;
+}
+
+#judge #button {
+  text-align: center;
+  margin: 30px 0px;
+  display: flex;
+  justify-content: center;
+}
+
+#judge #button button {
+  background: #16a085;
+  color: #fff;
+  padding: 10px;
+  margin: 0px 10px;
+  border-radius: 5px;
+  border: none;
+}
+
+/*コメントフォーム*/
+.form {
+  width: 70%;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.form textarea {
+  width: 380px;
+  height: 180px;
+  border: solid 1px #ccc;
+  border-radius: 5px;
+  font-size: 20px;
+  padding: 5px 15px;
+  -webkit-appearance: none;
+  outline: none;
+  resize: none;
+}
+
+.form input {
+  width: 380px;
+  height: 40px;
+  border: solid 1px #ccc;
+  border-radius: 5px;
+  font-size: 20px;
+  padding: 5px 15px;
+  -webkit-appearance: none;
+  outline: none;
+  resize: none;
+}
+
+/* .form textarea:focus {
+  border: solid 1px #16a085;
+  box-shadow: 0px 0px 10px 1px #16a085;
+}
+
+.form input:focus {
+  border: solid 1px #16a085;
+  box-shadow: 0px 0px 10px 1px #16a085;
+} */
+
+.form button {
+  background: #16a085;
+  font-size: 20px;
+  padding: 10px 30px;
+  color: #fff;
+  border-radius: 100px;
+  margin-top: 30px;
+  outline: none;
+  border: none;
+}

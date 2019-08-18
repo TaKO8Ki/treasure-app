@@ -6,7 +6,8 @@ class Form extends Component {
   constructor(props) {
     super(props);
     this.state.text = ''
-    this.token = '';
+    this.state.reference_url = ''
+    this.token = ''
   }
 
   async handleSubmit() {
@@ -14,30 +15,34 @@ class Form extends Component {
       this.token = await firebase.auth().currentUser.getIdToken();
     }
     let text = this.state.text;
-    let url = "hgoe";
+    let reference_url = this.state.reference_url;
+    this.setState({text: ''});
+    this.setState({reference_url: ''});
+    console.log(JSON.stringify({ text, reference_url }))
 
-    return fetch(`${API_ENDPOINT}/comments`, {
-      method: 'POST',
-      headers: {
-        Authorization: `Bearer ${this.token}`
-      },
-      body: JSON.stringify({ text, url })
-    }).then(v => v.json())
+    if (text != '') {
+      console.log("hoge")
+      return fetch(`${API_ENDPOINT}/comments`, {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${this.token}`
+        },
+        body: JSON.stringify({ text, reference_url })
+      }).then(v => v.json())
+    }
   }
 
   handleChange(e) {
-    this.setState({text: e.target.value})
+    this.setState({[e.target.name]: e.target.value})
   }
 
   render() {
     return (
-      <label>
-        Text:
-        <input type="text" name="text" value={this.state.value}　onChange={this.handleChange.bind(this)}/>
-        <button onClick={this.handleSubmit.bind(this)}>
-          send
-        </button>
-      </label>
+      <div class="form">
+        <p><textarea type="text" name="text" value={this.state.value}　onChange={this.handleChange.bind(this)} placeholder="text"/></p>
+        <p><input type="text" name="reference_url" value={this.state.value}　onChange={this.handleChange.bind(this)} placeholder="url"/></p>
+        <button onClick={this.handleSubmit.bind(this)}>クソコメする</button>
+      </div>
     );
   }
 }

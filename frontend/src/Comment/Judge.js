@@ -2,8 +2,9 @@ import { h, Component } from "preact";
 import { Router, Link } from 'preact-router';
 import Title from "./Title";
 import Point from "./Point";
+import Button from "./Button";
 
-class Random extends Component {
+class Judge extends Component {
   constructor() {
     super();
     this.state.articles = []
@@ -20,21 +21,23 @@ class Random extends Component {
   }
 
   render(props, state) {
-    return (
-      <div>
-        <nav>
-          {state.articles.map(d => {
-            return (
-              <a href={"http://localhost:1234/" + "comments/" + d['id']}>
-                <Title text={d['text']} />
-                <Point point={d['point']} />
-              </a>
-            )
-          })}
-        </nav>
-      </div>
-    );
+    if (state.articles[0] != undefined) {
+      return (
+        <div id="judge">
+            <p class="content">
+              <Title text={state.articles[0]['text']} />
+            </p>
+          <div id="button">
+            <Button id={state.articles[0]['id']} point={state.articles[0]['point']} buttonName="上に投稿する" />
+            <Button id={state.articles[1]['id']} point={state.articles[1]['point']} buttonName="下に投稿する"　/>
+          </div>
+            <p class="content">
+              <Title text={state.articles[1]['text']} />
+            </p>
+        </div>
+      );
+    }
   }
 }
 
-export default Random;
+export default Judge;

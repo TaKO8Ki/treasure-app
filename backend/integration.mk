@@ -38,12 +38,14 @@ req-bad-comments-post:
 req-articles-update:
 	curl -v -XPUT -H "Authorization: Bearer $(shell cat ./$(TOKEN_FILE))" $(HOST):$(PORT)/articles/$(ARTICLE_ID) -d '{"title": "$(ARTICLE_TITLE)", "body": "$(ARTICLE_BODY)"}'
 
+req-bad-comments-update:
+	curl -v -XPUT -H "Authorization: Bearer $(shell cat ./$(TOKEN_FILE))" $(HOST):$(PORT)/comments/17 -d '{"text": "hoge", "reference_url": "hogehoge", "point": 1}'
+
 req-articles-delete:
 	curl -v -XDELETE -H "Authorization: Bearer $(shell cat ./$(TOKEN_FILE))" $(HOST):$(PORT)/articles/$(ARTICLE_ID)
 
 req-articles-comment-post:
 	curl -v -XPOST -H "Authorization: Bearer $(shell cat ./$(TOKEN_FILE))" $(HOST):$(PORT)/articles/$(ARTICLE_ID)/comments -d '{"body": "$(ARTICLE_COMMENT_BODY)"}'
-
 
 req-public:
 	curl -v $(HOST):$(PORT)/public

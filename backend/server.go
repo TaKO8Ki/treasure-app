@@ -89,7 +89,7 @@ func (s *Server) Route() *mux.Router {
 
 	badCommentController := controller.NewBadComment(s.db)
 	r.Methods(http.MethodPost).Path("/comments").Handler(authChain.Then(AppHandler{badCommentController.Create}))
-	// r.Methods(http.MethodPut).Path("/comments/{id}").Handler(authChain.Then(AppHandler{badCommentController.Update}))
+	r.Methods(http.MethodPut).Path("/comments/{id}").Handler(authChain.Then(AppHandler{badCommentController.Update}))
 	// r.Methods(http.MethodDelete).Path("/comments/{id}").Handler(authChain.Then(AppHandler{badCommentController.Destroy}))
 	r.Methods(http.MethodGet).Path("/comments").Handler(commonChain.Then(AppHandler{badCommentController.Index}))
 	r.Methods(http.MethodGet).Path("/random_comments").Handler(commonChain.Then(AppHandler{badCommentController.Random}))

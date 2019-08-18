@@ -5,6 +5,7 @@ import { getPrivateMessage, getPublicMessage } from "./api";
 import Judge from "./Comment/Judge";
 import Form from "./Form";
 import Detail from "./Comment/Detail";
+import Home from "./Home";
 
 class App extends Component {
   constructor() {
@@ -50,20 +51,12 @@ class App extends Component {
     }
     return (
       <div>
-        <header>
-          <nav>
-            <a href="/">Home</a>
-            <a href="/judge">ジャッジする</a>
-            <a href="/comments/new">作成する</a>
-          </nav>
-        </header>
-
         <Router>
+          <Home path="/" />
           <Judge path="/judge" />
           <Form path="/comments/new" />
           <Detail path="/comments/:id" />
         </Router>
-
         <div>{state.message}</div>
         <p style="color:red;">{state.errorMessage}</p>
         <button onClick={this.getPrivateMessage.bind(this)}>
