@@ -77,6 +77,7 @@ class Judge extends Component {
     } else {
       return (
         <div id="judge" class="slide">
+          <p class="comment">この画像をOGPとしてツイートする感じ</p>
           <Image id={state.selectedCommentId} />
           <p class="content"><Detail id={state.selectedCommentId} /></p>
           <div id="button">

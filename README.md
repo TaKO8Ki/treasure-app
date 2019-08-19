@@ -1,6 +1,8 @@
-# treasure-app
+# 世の中にあるクソコメを延々と眺めるサービス
 
-> Remember, Makefile is always your friend
+# 動かし方
+backend, frontend共にtreasure-appと同じ動かし方（setup含めて）です。それに加えて、
+create_imageフォルダ以下でnode create_image.jsしてください。
 
 ### local環境
 ```
